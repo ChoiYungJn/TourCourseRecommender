@@ -1,10 +1,5 @@
-import com.sun.tools.javac.Main;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
-
-import static com.google.common.io.Resources.getResource;
 
 public class UI extends JFrame {
 
@@ -21,7 +16,7 @@ public class UI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        background = new ImageIcon(UI.class.getResource("../static/test.jpg")).getImage();
+        background = new ImageIcon(TouristMain.class.getResource("../resources/test.jpg")).getImage();
     }
 
     public void paint(Graphics g){
