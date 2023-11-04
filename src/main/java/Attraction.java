@@ -1,10 +1,8 @@
-package common;
+public class Attraction {
 
-public class TourCourseData {
     private String theme_id;
     private int course_id;
     private int attraction_id;
-    // location id는 생략
     private String attraction_name;
     private double longitude;
     private double latitude;
@@ -12,18 +10,22 @@ public class TourCourseData {
     private int travel_time;
     private String location_type;
     private String theme_name;
+    private String location;
+    private String name;
 
-    TourCourseData(
-        String themeId,
-        int courseId,
-        int attrId,
-        String attrName,
-        double longitude,
-        double latitude,
-        int courseOrder,
-        int travelTime,
-        String locType,
-        String themeName
+    Attraction(
+            String themeId,
+            int courseId,
+            int attrId,
+            String attrName,
+            double longitude,
+            double latitude,
+            int courseOrder,
+            int travelTime,
+            String locType,
+            String themeName,
+            String location,
+            String name
     ){
         this.theme_id = themeId;
         this.course_id = courseId;
@@ -35,7 +37,10 @@ public class TourCourseData {
         this.travel_time = travelTime;
         this.location_type = locType;
         this.theme_name = themeName;
+        this.location = location;
+        this.name = name;
     }
+
     public String getTheme_id() {
         return theme_id;
     }
@@ -74,5 +79,21 @@ public class TourCourseData {
 
     public String getTheme_name() {
         return theme_name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isIndoor() {
+        return location_type.equals("실내");
+    }
+
+    public boolean isOutdoor(){
+        return location_type.equals("실외");
     }
 }
