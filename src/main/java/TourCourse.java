@@ -1,17 +1,14 @@
 import java.util.List;
 
 public class TourCourse {
-    private List<Attraction> course;
+    private List<Attraction> attractions;
 
-    public TourCourse(List<Attraction> course) {
-        this.course = course;
+    public TourCourse(List<Attraction> attractions) {
+        this.attractions = attractions;
     }
-//
-//    public void displayCourseDetails() {
-//
-//        for (Attraction attraction : course) {
-//            attraction.displayDetails();
-//        }
-//    }
-}
 
+    public List<Attraction> getAttractions() {
+        return attractions;
+    }
+
+}
