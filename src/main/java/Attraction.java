@@ -10,8 +10,8 @@ public class Attraction {
     private int travel_time;
     private String location_type;
     private String theme_name;
-    private String location;
-    private String name;
+    // private String location;
+    // private String name;
 
     Attraction(
             String themeId,
@@ -23,9 +23,9 @@ public class Attraction {
             int courseOrder,
             int travelTime,
             String locType,
-            String themeName,
-            String location,
-            String name
+            String themeName
+            // String location,
+            // String name
     ){
         this.theme_id = themeId;
         this.course_id = courseId;
@@ -37,8 +37,8 @@ public class Attraction {
         this.travel_time = travelTime;
         this.location_type = locType;
         this.theme_name = themeName;
-        this.location = location;
-        this.name = name;
+        // this.location = location;
+        // this.name = name;
     }
 
     public String getTheme_id() {
@@ -81,13 +81,13 @@ public class Attraction {
         return theme_name;
     }
 
-    public String getLocation() {
-        return location;
-    }
+    // public String getLocation() {
+    //     return location;
+    // }
 
-    public String getName() {
-        return name;
-    }
+    // public String getName() {
+    //     return name;
+    // }
 
     public boolean isIndoor() {
         return location_type.equals("실내");
