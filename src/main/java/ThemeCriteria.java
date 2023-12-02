@@ -1,10 +1,15 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class ThemeCriteria implements ISelectionCriteria {
     private List<String> themes;
 
-    public ThemeCriteria(List<String> themes) {
-        this.themes = themes;
+    public ThemeCriteria() {
+        this.themes = new ArrayList<>();
+    }
+
+    public void pushTheme(String theme) {
+        themes.add(theme);
     }
 
     @Override
