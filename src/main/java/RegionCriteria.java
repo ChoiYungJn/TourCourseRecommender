@@ -1,12 +1,16 @@
-// public class RegionCriteria implements ISelectionCriteria {
-//     private String location;
+ public class RegionCriteria implements ISelectionCriteria {
+     private String location;
 
-//     public RegionCriteria(String region) {
-//         this.location = region;
-//     }
+     public RegionCriteria() {
 
-//     @Override
-//     public boolean matches(Attraction attraction) {
-//         return attraction.getLocation().equals(location);
-//     }
-// }
+     }
+
+     public RegionCriteria(String location) {
+         this.location = location;
+     }
+
+     @Override
+     public boolean matches(Attraction attraction) {
+         return attraction.getLocation().equals(location);
+     }
+ }

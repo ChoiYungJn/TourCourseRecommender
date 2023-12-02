@@ -1,8 +1,12 @@
 public class LocationTypeCriteria implements ISelectionCriteria {
     private String silnaesilwae; // "실내", "실외", "상관 없음"
 
-    public LocationTypeCriteria(String locationType) {
-        this.silnaesilwae = locationType;
+    public LocationTypeCriteria() {
+        this.silnaesilwae = "상관 없음";
+    }
+
+    public void setSilnaesilwae(String silnaesilwae) {
+        this.silnaesilwae = silnaesilwae;
     }
 
     @Override

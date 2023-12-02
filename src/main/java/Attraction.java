@@ -10,8 +10,10 @@ public class Attraction {
     private int travel_time;
     private String location_type;
     private String theme_name;
-    // private String location;
-    // private String name;
+
+    private String location;
+
+    private String name;
 
     Attraction(
             String themeId,
@@ -23,9 +25,9 @@ public class Attraction {
             int courseOrder,
             int travelTime,
             String locType,
-            String themeName
-            // String location,
-            // String name
+            String themeName,
+            String location,
+            String name
     ){
         this.theme_id = themeId;
         this.course_id = courseId;
@@ -37,8 +39,8 @@ public class Attraction {
         this.travel_time = travelTime;
         this.location_type = locType;
         this.theme_name = themeName;
-        // this.location = location;
-        // this.name = name;
+        this.location = location;
+        this.name = name;
     }
 
     public String getTheme_id() {
@@ -81,13 +83,13 @@ public class Attraction {
         return theme_name;
     }
 
-    // public String getLocation() {
-    //     return location;
-    // }
+     public String getLocation() {
+         return location;
+     }
 
-    // public String getName() {
-    //     return name;
-    // }
+     public String getName() {
+         return name;
+     }
 
     public boolean isIndoor() {
         return location_type.equals("실내");
@@ -96,4 +98,24 @@ public class Attraction {
     public boolean isOutdoor(){
         return location_type.equals("실외");
     }
+
+    @Override
+    public String toString() {
+        return "Attraction{" +
+                "theme_id='" + theme_id + '\'' +
+                ", course_id=" + course_id +
+                ", attraction_id=" + attraction_id +
+                ", attraction_name='" + attraction_name + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", course_order=" + course_order +
+                ", travel_time=" + travel_time +
+                ", location_type='" + location_type + '\'' +
+                ", theme_name='" + theme_name + '\'' +
+                ", location='" + location + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+
 }
