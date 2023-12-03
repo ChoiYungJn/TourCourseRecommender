@@ -664,7 +664,7 @@ public class UI extends JFrame {
             }
         });
 
-        attractionInfoPane.setBounds(20, 380, 600, 300);
+        attractionInfoPane.setBounds(20, 320, 600, 300);
         attractionInfoPane.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 
 
