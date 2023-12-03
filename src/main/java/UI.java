@@ -1,9 +1,12 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class UI extends JFrame {
@@ -130,9 +133,13 @@ public class UI extends JFrame {
         loadingLabel.setVisible(false);
         attractionInfoLabel.setVisible(false);
         resetButton.setVisible(false);
+        attractionInfoPane.setVisible(false);
     }
 
 
+    private void updateAttractionInfoHTML() {
+
+    }
 
 
     public UI() {
@@ -154,6 +161,7 @@ public class UI extends JFrame {
             loadingLabel = new JLabel(loadingIcon);
             repaintTimer = new Timer(100, e -> repaint());
             resetButton = new JButton(new ImageIcon(getClass().getResource("/reset.png")));
+            attractionInfoPane = new JEditorPane();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -194,12 +202,15 @@ public class UI extends JFrame {
 
                 if(resultFlag){
                     attractionInfoLabel.setVisible(true);
-                    //change ImagePanel's image to resultBackground
+
+                    attractionInfoPane.setVisible(true);
                     g.drawImage(resultBackground, 0, 0, TouristMain.UI_WIDTH, TouristMain.UI_HEIGHT, null);
                     resetButton.setVisible(true);
                 }
                 else {
                     resetButton.setVisible(false);
+
+                    attractionInfoPane.setVisible(false);
                     g.drawImage(background, 0, 0, TouristMain.UI_WIDTH, TouristMain.UI_HEIGHT, null);
                     attractionInfoLabel.setVisible(false);
 
@@ -580,6 +591,8 @@ public class UI extends JFrame {
                 loadingLabel.setVisible(false);
 
                 attractionInfoLabel.setText("<html>" + tourCourseRecommender.getAttractionInfo() + "</html>");
+                attractionInfoPane.setText("<html>" + tourCourseRecommender.getAttractionHtml() + "</html>");
+
                 repaint();
                 revalidate();
 
@@ -593,8 +606,8 @@ public class UI extends JFrame {
         loadingLabel.setVisible(false);
 
         attractionInfoLabel = new JLabel();
-        attractionInfoLabel.setBounds(20, 20, 1200, 650);
-        attractionInfoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+        attractionInfoLabel.setBounds(20, 20, 1200, 300);
+        attractionInfoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
         attractionInfoLabel.setForeground(Color.BLACK); // 텍스트 색상 설정
         attractionInfoLabel.setVisible(false);
 
@@ -636,6 +649,24 @@ public class UI extends JFrame {
             }
         });
 
+        attractionInfoPane.setContentType("text/html");
+        attractionInfoPane.setForeground(Color.BLACK);
+        attractionInfoPane.setEditable(false);
+        attractionInfoPane.addHyperlinkListener(new HyperlinkListener() {
+            public void hyperlinkUpdate(HyperlinkEvent e) {
+                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                    try {
+                        Desktop.getDesktop().browse(e.getURL().toURI());
+                    } catch (IOException | URISyntaxException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        attractionInfoPane.setBounds(20, 380, 600, 300);
+        attractionInfoPane.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+
 
 
         add(imagePanel);
@@ -656,6 +687,7 @@ public class UI extends JFrame {
         add(loadingLabel);
         add(attractionInfoLabel);
         add(resetButton);
+        add(attractionInfoPane);
 
 
 
@@ -676,7 +708,8 @@ public class UI extends JFrame {
         setComponentZOrder(locationTypeButton3, 14);
         setComponentZOrder(locationRecommendationButton, 15);
         setComponentZOrder(resetButton, 16);
-        setComponentZOrder(imagePanel, 17);
+        setComponentZOrder(attractionInfoPane, 17);
+        setComponentZOrder(imagePanel, 18);
 
 
 

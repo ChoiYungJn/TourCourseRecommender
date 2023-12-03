@@ -59,7 +59,16 @@ public class TourCourseRecommender {
             sb.append(attraction.toString());
             sb.append("<br>");
         }
-        sb.append("<br> 즐거운 여행 되시길 바랍니다!!");
+        sb.append("<br> 자세한 정보는 하단을 참고해주세요!!");
+        return sb.toString();
+    }
+
+    public String getAttractionHtml() {
+        StringBuilder sb = new StringBuilder();
+        for (Attraction attraction : allAttractions) {
+            sb.append(attraction.toHTMLString());
+            sb.append("<br>");
+        }
         return sb.toString();
     }
 
