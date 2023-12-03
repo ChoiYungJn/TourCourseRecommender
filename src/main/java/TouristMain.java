@@ -1,24 +1,26 @@
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
-
-public class TouristMain
-{
+public class TouristMain {
     public static final int UI_WIDTH = 1280;
     public static final int UI_HEIGHT = 720;
 
-    public static void main(String[] args) throws IOException{
-        List<Attraction> dataList = ExcelParser.parseExcelFile("/Users/baejongchan/Downloads/SqlGen.xlsx");
-        //List<Attraction> dataList = AttractionDAO.getData();
-        TourCourseRecommender tourCourseRecommender = TourCourseRecommender.getInstance();
+    public static void main(String[] args) {
+        try (AttractionDAO attractionDAO = new AttractionDAO()) {
+            List<Attraction> dataList = attractionDAO.getData();
 
-        tourCourseRecommender.setAllAttractions(dataList);
+            if (dataList == null || dataList.isEmpty()) {
+                throw new RuntimeException("No data fetched from the database.");
+            }
 
-        new UI();
+            TourCourseRecommender tourCourseRecommender = TourCourseRecommender.getInstance();
+            tourCourseRecommender.setAllAttractions(dataList);
 
-        for(Attraction attraction : dataList){
-            System.out.println(attraction);
+            new UI();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 }
+

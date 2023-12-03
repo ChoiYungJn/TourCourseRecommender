@@ -42,10 +42,29 @@ public class TourCourseRecommender {
         allAttractions = builder.build().getAttractions();
     }
 
-    void showAllAttractions() {
+    public void showAllAttractions() {
         System.out.println("켜졌어");
         for (Attraction attraction : allAttractions) {
             System.out.println(attraction);
         }
+    }
+
+    public List<Attraction> getAllAttractions() {
+        return allAttractions;
+    }
+
+    public String getAttractionInfo() {
+        StringBuilder sb = new StringBuilder();
+        for (Attraction attraction : allAttractions) {
+            sb.append(attraction.toString());
+            sb.append("<br>");
+        }
+        sb.append("<br> 즐거운 여행 되시길 바랍니다!!");
+        return sb.toString();
+    }
+
+    public void reset() {
+        builder.clear();
+        this.allAttractions.clear();
     }
 }

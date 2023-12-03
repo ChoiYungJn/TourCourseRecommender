@@ -11,6 +11,6 @@
 
      @Override
      public boolean matches(Attraction attraction) {
-         return attraction.getLocation().equals(location);
+         return location.contains(attraction.getLocation());
      }
  }
