@@ -13,6 +13,7 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'io.github.vincenzopalazzo:material-ui-swing:1.1.4'
     implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'com.h2database:h2:2.2.224'
 
     implementation 'org.apache.poi:poi:5.2.2'
     implementation 'org.apache.poi:poi-ooxml:5.2.2'

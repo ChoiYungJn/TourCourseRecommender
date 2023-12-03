@@ -14,6 +14,6 @@ public class ThemeCriteria implements ISelectionCriteria {
 
     @Override
     public boolean matches(Attraction attraction) {
-        return themes.contains(attraction.getTheme_name());
+        return themes.contains(attraction.getTheme_id());
     }
 }

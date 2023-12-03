@@ -11,6 +11,8 @@ public class UI extends JFrame {
     private Image background;
     private Image hello;
 
+    private Image resultBackground;
+
     private Image regionImage;
 
     private Image themeImage;
@@ -39,6 +41,8 @@ public class UI extends JFrame {
 
 
     private JButton ThemeChoiceButton;
+
+    private JLabel attractionInfoLabel;
 
     private URL loadingurl;
 
@@ -75,6 +79,61 @@ public class UI extends JFrame {
 
     private Timer repaintTimer;
 
+    private boolean resultFlag = false;
+
+    private JButton resetButton;
+
+    private boolean startFlag = true;
+
+    private JEditorPane attractionInfoPane;
+
+    private void resetThemeButtons() {
+        theme1Choice = false;
+        theme2Choice = false;
+        theme3Choice = false;
+        theme4Choice = false;
+        theme5Choice = false;
+        theme6Choice = false;
+
+        themeButton1.setIcon(new ImageIcon(getClass().getResource("/theme1.png")));
+        themeButton2.setIcon(new ImageIcon(getClass().getResource("/theme2.png")));
+        themeButton3.setIcon(new ImageIcon(getClass().getResource("/theme3.png")));
+        themeButton4.setIcon(new ImageIcon(getClass().getResource("/theme4.png")));
+        themeButton5.setIcon(new ImageIcon(getClass().getResource("/theme5.png")));
+        themeButton6.setIcon(new ImageIcon(getClass().getResource("/theme6.png")));
+    }
+
+    private void resetLocationTypeButtons() {
+        locationTypeButton1.setIcon(new ImageIcon(getClass().getResource("/locationType1.png")));
+        locationTypeButton2.setIcon(new ImageIcon(getClass().getResource("/locationType2.png")));
+        locationTypeButton3.setIcon(new ImageIcon(getClass().getResource("/locationType3.png")));
+    }
+
+    private void setInitialVisibility() {
+        // 시작 화면 컴포넌트만 보이게 설정
+        startButton.setVisible(true);
+        exitButton.setVisible(true);
+
+        // 나머지 컴포넌트는 숨김 처리
+        regionField.setVisible(false);
+        themeButton1.setVisible(false);
+        themeButton2.setVisible(false);
+        themeButton3.setVisible(false);
+        themeButton4.setVisible(false);
+        themeButton5.setVisible(false);
+        themeButton6.setVisible(false);
+        ThemeChoiceButton.setVisible(false);
+        locationTypeButton1.setVisible(false);
+        locationTypeButton2.setVisible(false);
+        locationTypeButton3.setVisible(false);
+        locationRecommendationButton.setVisible(false);
+        loadingLabel.setVisible(false);
+        attractionInfoLabel.setVisible(false);
+        resetButton.setVisible(false);
+    }
+
+
+
 
     public UI() {
         try {
@@ -86,6 +145,7 @@ public class UI extends JFrame {
             themeImage = ImageIO.read(getClass().getResourceAsStream("/theme.png"));
             locationTypeImage = ImageIO.read(getClass().getResourceAsStream("/locationType.png"));
             regionField = new JFormattedTextField();
+            resultBackground = ImageIO.read(getClass().getResourceAsStream("/resultBackground.png"));
             tourCourseRecommender = TourCourseRecommender.getInstance();
             typingBlock = ImageIO.read(getClass().getResourceAsStream("/typingBlock.png"));
             loadingImage = new ImageIcon(getClass().getResource("/loading.gif"));
@@ -93,6 +153,7 @@ public class UI extends JFrame {
             loadingIcon = new ImageIcon(loadingurl);
             loadingLabel = new JLabel(loadingIcon);
             repaintTimer = new Timer(100, e -> repaint());
+            resetButton = new JButton(new ImageIcon(getClass().getResource("/reset.png")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -120,56 +181,77 @@ public class UI extends JFrame {
             protected void paintComponent(Graphics g) {
 
                 super.paintComponent(g);
-
-                if(bufferingFlag){
+                if(startFlag){
+                    g.drawImage(background, 0, 0, TouristMain.UI_WIDTH, TouristMain.UI_HEIGHT, null);
+                    g.drawImage(hello, 20, 20, hello.getWidth(null), hello.getHeight(null), null);
+                    startButton.setVisible(true);
+                    exitButton.setVisible(true);
+                }
+                else{
+                    startButton.setVisible(false);
 
                 }
+
+                if(resultFlag){
+                    attractionInfoLabel.setVisible(true);
+                    //change ImagePanel's image to resultBackground
+                    g.drawImage(resultBackground, 0, 0, TouristMain.UI_WIDTH, TouristMain.UI_HEIGHT, null);
+                    resetButton.setVisible(true);
+                }
                 else {
-
+                    resetButton.setVisible(false);
                     g.drawImage(background, 0, 0, TouristMain.UI_WIDTH, TouristMain.UI_HEIGHT, null);
+                    attractionInfoLabel.setVisible(false);
 
-                    if (hello != null) {
-                        g.drawImage(hello, 20, 20, hello.getWidth(null), hello.getHeight(null), null);
-                    }
-
-                    if (regionFlag) {
-                        g.drawImage(regionImage, 20, 20, regionImage.getWidth(null), regionImage.getHeight(null), null);
-                        g.drawImage(typingBlock, 20, 150, typingBlock.getWidth(null), typingBlock.getHeight(null), null);
-                        regionField.setVisible(true);
-                    }
-
-                    if (themeFlag) {
-                        g.drawImage(themeImage, 20, 20, themeImage.getWidth(null), themeImage.getHeight(null), null);
-                        themeButton1.setVisible(true);
-                        themeButton2.setVisible(true);
-                        themeButton3.setVisible(true);
-                        themeButton4.setVisible(true);
-                        themeButton5.setVisible(true);
-                        themeButton6.setVisible(true);
-                        ThemeChoiceButton.setVisible(true);
-                    } else {
-                        themeButton1.setVisible(false);
-                        themeButton2.setVisible(false);
-                        themeButton3.setVisible(false);
-                        themeButton4.setVisible(false);
-                        themeButton5.setVisible(false);
-                        themeButton6.setVisible(false);
-                        ThemeChoiceButton.setVisible(false);
-                    }
-
-
-                    if (locationTypeFlag) {
-                        g.drawImage(locationTypeImage, 20, 20, locationTypeImage.getWidth(null), locationTypeImage.getHeight(null), null);
-                        locationTypeButton1.setVisible(true);
-                        locationTypeButton2.setVisible(true);
-                        locationTypeButton3.setVisible(true);
-                        locationRecommendationButton.setVisible(true);
+                    if (bufferingFlag) {
 
                     } else {
-                        locationTypeButton1.setVisible(false);
-                        locationTypeButton2.setVisible(false);
-                        locationTypeButton3.setVisible(false);
-                        locationRecommendationButton.setVisible(false);
+
+                        g.drawImage(background, 0, 0, TouristMain.UI_WIDTH, TouristMain.UI_HEIGHT, null);
+
+                        if (startFlag) {
+                            g.drawImage(hello, 20, 20, hello.getWidth(null), hello.getHeight(null), null);
+                        }
+
+                        if (regionFlag) {
+                            g.drawImage(regionImage, 20, 20, regionImage.getWidth(null), regionImage.getHeight(null), null);
+                            g.drawImage(typingBlock, 20, 150, typingBlock.getWidth(null), typingBlock.getHeight(null), null);
+                            regionField.setVisible(true);
+                        }
+
+                        if (themeFlag) {
+                            g.drawImage(themeImage, 20, 20, themeImage.getWidth(null), themeImage.getHeight(null), null);
+                            themeButton1.setVisible(true);
+                            themeButton2.setVisible(true);
+                            themeButton3.setVisible(true);
+                            themeButton4.setVisible(true);
+                            themeButton5.setVisible(true);
+                            themeButton6.setVisible(true);
+                            ThemeChoiceButton.setVisible(true);
+                        } else {
+                            themeButton1.setVisible(false);
+                            themeButton2.setVisible(false);
+                            themeButton3.setVisible(false);
+                            themeButton4.setVisible(false);
+                            themeButton5.setVisible(false);
+                            themeButton6.setVisible(false);
+                            ThemeChoiceButton.setVisible(false);
+                        }
+
+
+                        if (locationTypeFlag) {
+                            g.drawImage(locationTypeImage, 20, 20, locationTypeImage.getWidth(null), locationTypeImage.getHeight(null), null);
+                            locationTypeButton1.setVisible(true);
+                            locationTypeButton2.setVisible(true);
+                            locationTypeButton3.setVisible(true);
+                            locationRecommendationButton.setVisible(true);
+
+                        } else {
+                            locationTypeButton1.setVisible(false);
+                            locationTypeButton2.setVisible(false);
+                            locationTypeButton3.setVisible(false);
+                            locationRecommendationButton.setVisible(false);
+                        }
                     }
                 }
             }
@@ -184,6 +266,10 @@ public class UI extends JFrame {
         startButton.setBorderPainted(false);
         startButton.setContentAreaFilled(false);
         startButton.setFocusPainted(false);
+        startButton.setOpaque(false);startButton = new JButton(new ImageIcon(getClass().getResource("/start.png")));
+        startButton.setBorderPainted(false);
+        startButton.setContentAreaFilled(false);
+        startButton.setFocusPainted(false);
         startButton.setOpaque(false);
         startButton.setBounds(50, 100, startButton.getIcon().getIconWidth(), startButton.getIcon().getIconHeight());
 
@@ -192,9 +278,9 @@ public class UI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                startButton.setVisible(false);
-                hello = null;
-
+//                startButton.setVisible(false);
+//
+                startFlag = false;
                 regionFlag = true;
 
                 imagePanel.repaint();
@@ -385,22 +471,22 @@ public class UI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(theme1Choice){
-                    themeCriteria.pushTheme("종교/역사/전통");
+                    themeCriteria.pushTheme("TH05");
                 }
                 if(theme2Choice){
-                    themeCriteria.pushTheme("쇼핑/놀이");
+                    themeCriteria.pushTheme("TH06");
                 }
                 if(theme3Choice){
-                    themeCriteria.pushTheme("캠핑/스포츠");
+                    themeCriteria.pushTheme("TH04");
                 }
                 if(theme4Choice){
-                    themeCriteria.pushTheme("자연/힐링");
+                    themeCriteria.pushTheme("TH03");
                 }
                 if(theme5Choice){
-                    themeCriteria.pushTheme("문화/예술");
+                    themeCriteria.pushTheme("TH01");
                 }
                 if(theme6Choice){
-                    themeCriteria.pushTheme("체험/학습/산업");
+                    themeCriteria.pushTheme("TH02");
                 }
 
                 themeFlag = false;
@@ -480,12 +566,6 @@ public class UI extends JFrame {
         locationRecommendationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bufferingFlag = true;
-                loadingLabel.setVisible(true);
-                loadingLabel.repaint();
-                loadingLabel.revalidate();
-                repaint();
-                revalidate();
                 tourCourseRecommender.addCriteria(regionCriteria);
                 tourCourseRecommender.addCriteria(themeCriteria);
                 tourCourseRecommender.addCriteria(locationTypeCriteria);
@@ -495,9 +575,11 @@ public class UI extends JFrame {
                 locationTypeButton2.setVisible(false);
                 locationTypeButton3.setVisible(false);
                 locationRecommendationButton.setVisible(false);
+
+                resultFlag = true;
                 loadingLabel.setVisible(false);
-                loadingLabel.repaint();
-                loadingLabel.revalidate();
+
+                attractionInfoLabel.setText("<html>" + tourCourseRecommender.getAttractionInfo() + "</html>");
                 repaint();
                 revalidate();
 
@@ -509,6 +591,51 @@ public class UI extends JFrame {
 
         loadingLabel.setBounds(TouristMain.UI_WIDTH/2 - 193, TouristMain.UI_HEIGHT/2 - 193, 386, 386);
         loadingLabel.setVisible(false);
+
+        attractionInfoLabel = new JLabel();
+        attractionInfoLabel.setBounds(20, 20, 1200, 650);
+        attractionInfoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+        attractionInfoLabel.setForeground(Color.BLACK); // 텍스트 색상 설정
+        attractionInfoLabel.setVisible(false);
+
+        resetButton.setBorderPainted(false);
+        resetButton.setContentAreaFilled(false);
+        resetButton.setFocusPainted(false);
+        resetButton.setOpaque(false);
+        resetButton.setBounds(20, TouristMain.UI_HEIGHT - resetButton.getIcon().getIconHeight() - 5, resetButton.getIcon().getIconWidth(), resetButton.getIcon().getIconHeight());
+
+
+
+
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 모든 플래그를 false로 설정
+                regionFlag = false;
+                themeFlag = false;
+                locationTypeFlag = false;
+                bufferingFlag = false;
+                resultFlag = false;
+                startFlag = true; // 시작 화면으로 돌아가기 위해 true로 설정
+
+                // TourCourseRecommender 인스턴스 리셋
+                tourCourseRecommender.reset();
+
+                // UI 컴포넌트 초기화
+                regionField.setText(""); // 텍스트 필드 초기화
+                attractionInfoLabel.setText(""); // 레이블 초기화
+                resetThemeButtons(); // 테마 버튼 상태 초기화
+                resetLocationTypeButtons(); // 위치 유형 버튼 상태 초기화
+
+                // 모든 컴포넌트의 가시성을 초기 상태로 재설정
+                setInitialVisibility();
+
+                // UI 다시 그리기
+                repaint();
+                revalidate();
+            }
+        });
+
 
 
         add(imagePanel);
@@ -527,7 +654,12 @@ public class UI extends JFrame {
         add(locationTypeButton3);
         add(locationRecommendationButton);
         add(loadingLabel);
+        add(attractionInfoLabel);
+        add(resetButton);
 
+
+
+        setComponentZOrder(attractionInfoLabel, 0);
         setComponentZOrder(loadingLabel, 1);
         setComponentZOrder(themeButton1, 2);
         setComponentZOrder(themeButton2, 3);
@@ -543,7 +675,8 @@ public class UI extends JFrame {
         setComponentZOrder(locationTypeButton2, 13);
         setComponentZOrder(locationTypeButton3, 14);
         setComponentZOrder(locationRecommendationButton, 15);
-        setComponentZOrder(imagePanel, 16);
+        setComponentZOrder(resetButton, 16);
+        setComponentZOrder(imagePanel, 17);
 
 
 

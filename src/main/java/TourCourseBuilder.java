@@ -30,4 +30,8 @@ public class TourCourseBuilder {
         return new TourCourse(filteredAttractions);
     }
 
+    public void clear() {
+        criteriaList.clear();
+    }
+
 }

@@ -1,3 +1,6 @@
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 public class Attraction {
 
     private String theme_id;
@@ -101,20 +104,15 @@ public class Attraction {
 
     @Override
     public String toString() {
-        return "Attraction{" +
-                "theme_id='" + theme_id + '\'' +
-                ", course_id=" + course_id +
-                ", attraction_id=" + attraction_id +
-                ", attraction_name='" + attraction_name + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", course_order=" + course_order +
-                ", travel_time=" + travel_time +
-                ", location_type='" + location_type + '\'' +
-                ", theme_name='" + theme_name + '\'' +
-                ", location='" + location + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+        return location + "에 있는 " + name + "이(가) 있습니다!<br>" +
+                "위도 : " + (int)latitude + " 경도 : " + (int)longitude + " 에 위치하고 있어요<br>";
+
+    }
+
+    public String toHTMLString() {
+        String query = URLEncoder.encode(this.name, StandardCharsets.UTF_8);
+        String searchURL = "https://search.naver.com/search.naver?ie=UTF-8&query=" + query;
+        return "<html><a href='" + searchURL + "'>" + this.name + "</a><br></html>";
     }
 
 
